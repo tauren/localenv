@@ -1,0 +1,78 @@
+#!/bin/sh
+
+########### GENERAL SHORTCUTS ############
+function openidea {
+  open -a /Applications/IntelliJ\ IDEA\ 12.app "$1"
+  echo 'if you didn\'t already have IDEA open you may need to run this command again'
+}
+
+function myCommands {
+   echo 'The list of Commands provided by common environment setup'
+   echo ' '
+   echo 'openidea path_to_file   Will open the file in Intellij's Idea'
+   echo 'filevis --help          Show or hide hidden files'
+}
+
+########### MISC ############
+function filevis
+{
+  case "$1" in
+    -h|--help|help)
+      echo 'Show or Hide the hidden files; change the visibility'
+      echo ' '
+      echo 'filevis [option]'
+      echo ' '
+      echo 'help, -h, --help  show help'
+      echo 'on, -s, --show    show the files [default]'
+      echo 'off, -h, --hide   hide the files'
+      ;;
+    -h|--hide|off)
+      defaults write com.apple.finder AppleShowAllFiles FALSE # Mavericks 
+      defaults write com.apple.Finder AppleShowAllFiles FALSE # Older
+      killall Finder
+      echo -e 'Hidden files are invisible'
+      ;;
+    *)
+      defaults write com.apple.finder AppleShowAllFiles TRUE # Mavericks 
+      defaults write com.apple.Finder AppleShowAllFiles TRUE # Older
+      killall Finder
+      echo -e 'Hidden files are visible'
+      ;;
+  esac
+
+}
+
+# Show and Hide System Files
+function showSysFiles {
+  filevis -s
+}
+
+function hideSysFiles {
+  filevis -h
+}
+
+### Initialize ####
+
+#Path Modifications
+export PATH=/usr/local/bin:$PATH:$HOME/bin
+
+###########
+## Display Path At All Times 
+# http://blog.twistedcode.org/2008/03/customizing-your-bash-prompt.html
+# http://www.kirsle.net/wizards/ps1.html
+export PS1='\e[00m\d \A: $(date +%S) $(date +%Z) \h \e[0;33m\w \e[00m \n:'
+
+
+######### TEST DRIVER ##############
+# export JSTESTDRIVER_JAR="$CLASSIC_FRONTEND/unittest/JsTestDriver-1.3.4.b.jar"
+# export JSTESTDRIVER_CHROME="'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'"
+
+# alias jtd-start="cd $CLASSIC_FRONTEND/unittest && java -jar $JSTESTDRIVER_JAR --port 9876 --server http://localhost:9876 --browser $JSTESTDRIVER_CHROME --basePath ../"
+
+# function jtd-run() {
+#   pushd . > /dev/null 2>&1
+#   cd $CLASSIC_FRONTEND/unittest
+#   java -jar $JSTESTDRIVER_JAR --reset --server http://localhost:9876 --basePath ../ --tests $@
+#   popd > /dev/null 2>&1
+# }
+

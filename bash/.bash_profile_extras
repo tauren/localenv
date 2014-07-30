@@ -1,0 +1,13 @@
+export PATH=$HOME/bin:$PATH
+
+export M2_REPO=$HOME/.m2
+export NODE_ENV=development
+
+# History settings (see also ~/.inputrc)
+export HISTFILESIZE=10000
+export HISTSIZE=10000
+export HISTCONTROL=erasedups
+export HISTIGNORE="[bf]g: [ ]*:exit"
+
+# Enable debugging via IDE for maven projects started at command line
+export MAVEN_OPTS='-Djava.awt.headless=true -Xdebug -Xrunjdwp:transport=dt_socket,address=7298,server=y,suspend=n -Xmx1024M -Xms256m -XX:MaxPermSize=512m'
